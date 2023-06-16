@@ -1,12 +1,15 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.SortedSet;
 
 public class WordCounter {
 
     public static void main(String[] args) {
         //Get txt path
         String path = System.getProperty("user.dir")+"/src/source/text/example.txt";
+        //String path = System.getProperty("user.dir")+"/src/source/text/book.txt";
         System.out.println(path);
 
         //Necessary to read files
@@ -19,6 +22,7 @@ public class WordCounter {
         //Variables
         String line;
         int amount;
+        int totalAmount = 0;
 
         try {
 
@@ -46,9 +50,18 @@ public class WordCounter {
         }catch (Exception e){
             System.out.println("Error !"+e.getMessage());
         }
+        //Sort map by words
+        mapWords.entrySet().stream().sorted(Map.Entry.comparingByValue());
         //Print mapWords
-        for (HashMap.Entry<String, Integer> entry : mapWords.entrySet()) {
-            System.out.printf("Word: '%s' | Amount: %d\n", entry.getKey(), entry.getValue());
+        for (HashMap.Entry<String, Integer> space : mapWords.entrySet()) {
+            System.out.printf("Word: '%s' | Amount: %d\n", space.getKey(), space.getValue());
+            totalAmount = totalAmount + space.getValue();
         }
+
+        //mapWords.entrySet().stream().sorted(Map.Entry.comparingByValue()).forEach();
+
+        System.out.println();
+        System.out.println("Total different words: "+mapWords.size());
+        System.out.println("Total words: "+totalAmount);
     }
 }
